@@ -1,2 +1,67 @@
 ---
-# tasks file for openqa
+# OpenQA install playbook
+
+
+- name: Install OpenQA Bootstrap
+  zypper:
+    name: ['openQA-bootstrap', 'qemu-tools'] # Needed: qemu-tools libvirt libvirt-client libvirt-daemon ?
+    state: installed
+  tags: ['openqa']
+- name: Bootstrap OpenQA
+  shell: |
+    if [ ! -d /var/lib/openqa ] ; then
+      ## On Fedora this is necessary to allow Apache to connect to openQA
+      #setsebool -P httpd_can_network_connect 1
+      /usr/share/openqa/script/openqa-bootstrap && /usr/share/openqa/script/configure-web-proxy
+      status=$?
+      /usr/share/openqa/script/fetchneedles
+      /var/lib/openqa/share/tests/opensuse/products/opensuse/templates
+      exit $status
+    fi
+  
+- name: Enable Postgresql
+  systemd:
+    name: postgresql
+    state: started
+    enabled: true
+  notify: restart apache
+  tags: ['openqa']
+- name: Enable OpenQA-WebUI
+  systemd:
+    name: openqa-webui
+    state: started
+    enabled: true
+  notify: restart apache
+  tags: ['openqa']
+- name: Enable OpenQA-Scheduler
+  systemd:
+    name: openqa-scheduler
+    state: started
+    enabled: true
+  notify: restart apache
+  tags: ['openqa']
+  
+- name: Configure firewall interface
+  firewalld:
+    zone: public
+    interface: eth0
+    permanent: true
+    state: enabled
+  notify: Reload firewalld
+  tags: ['openqa','firewall']
+- name: Enable http on public interface
+  firewalld:
+    zone: public
+    service: http
+    permanent: yes
+    state: enabled
+  notify: Reload firewalld
+  tags: ['firewall','openqa','www']
+- name: Enable https on public interface
+  firewalld:
+    zone: public
+    service: https
+    permanent: yes
+    state: enabled
+  notify: Reload firewalld
+  tags: ['firewall','openqa','www']

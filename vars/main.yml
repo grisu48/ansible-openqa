@@ -1,2 +1,5 @@
 ---
 # vars file for openqa
+
+  ## Use Python3 by default
+  ansible_python_interpreter: '/usr/bin/python3'
