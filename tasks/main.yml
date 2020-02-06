@@ -40,28 +40,6 @@
     enabled: true
   notify: restart apache
   tags: ['openqa']
-  
-- name: Configure firewall interface
-  firewalld:
-    zone: public
-    interface: eth0
-    permanent: true
-    state: enabled
-  notify: Reload firewalld
-  tags: ['openqa','firewall']
-- name: Enable http on public interface
-  firewalld:
-    zone: public
-    service: http
-    permanent: yes
-    state: enabled
-  notify: Reload firewalld
-  tags: ['firewall','openqa','www']
-- name: Enable https on public interface
-  firewalld:
-    zone: public
-    service: https
-    permanent: yes
-    state: enabled
-  notify: Reload firewalld
-  tags: ['firewall','openqa','www']
+
+- include: firewall.yml
+  when: firewall_configure == true

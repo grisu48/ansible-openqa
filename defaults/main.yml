@@ -1,2 +1,7 @@
 ---
 # defaults file for openqa
+
+
+# Firewall configuration
+firewall_configure: true
+firewall_interface: "public"

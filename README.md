@@ -1,4 +1,4 @@
-OpenQA
+hOpenQA
 ======
 
 Role to install and bootstrap [open.qa](OpenQA) on a host
@@ -13,7 +13,10 @@ Basic `openSUSE` Linux installation with working network and `python-xml`
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+The following variables are set
+
+    firewall_configure: true           # Enable firewall configuration
+    firewall_interface: "public"       # Firewall interface to configure
 
 
 Example Playbook
@@ -23,7 +26,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: openqa }
+         - { role: openqa, firewall_configure: true }
 
 Post-Install steps
 ------------------
@@ -37,16 +40,30 @@ ISOs to be tested should be stored in `/var/lib/openqa/share/factory/iso`
     # cd /var/lib/openqa/share/factory/iso
     # wget https://download.opensuse.org/distribution/leap/15.1/iso/openSUSE-Leap-15.1-NET-x86_64.iso
 
-#### Run first test
+#### Run first testtop
+
 
 # Run the first test
+
+A NET installation
 
     # openqa-client isos post \
              ISO=openSUSE-Leap-15.1-NET-x86_64.iso \
              DISTRI=opensuse \
              VERSION=Leap \
              FLAVOR=NET \
-             ARCH=x86_64
+             ARCH=x86_64 \
+             MIRROR_HTTP=http://download.opensuse.org/
+
+DVD installation
+
+    # openqa-client isos post \
+             ISO=openSUSE-Leap-15.1-DVD-x86_64.iso \
+             DISTRI=opensuse \
+             VERSION=Leap \
+             FLAVOR=DVD \
+             ARCH=x86_64 \
+
 
 ### Start more workers
 

@@ -1,0 +1,19 @@
+---
+# Firewall configuration for OpenQA
+
+- name: Enable http for openqa
+  firewalld:
+    zone: "{{ firewall_interface }}"
+    service: http
+    permanent: yes
+    state: enabled
+  notify: Reload firewalld
+  tags: ['firewall','openqa']
+- name: Enable https for openqa
+  firewalld:
+    zone: "{{ firewall_interface }}"
+    service: https
+    permanent: yes
+    state: enabled
+  notify: Reload firewalld
+  tags: ['firewall','openqa']
