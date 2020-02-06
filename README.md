@@ -25,6 +25,40 @@ Including an example of how to use your role (for instance, with variables passe
       roles:
          - { role: openqa }
 
+Post-Install steps
+------------------
+
+The following steps need to be done manually after installing
+
+### Download ISOs
+
+ISOs to be tested should be stored in `/var/lib/openqa/share/factory/iso`
+
+    # cd /var/lib/openqa/share/factory/iso
+    # wget https://download.opensuse.org/distribution/leap/15.1/iso/openSUSE-Leap-15.1-NET-x86_64.iso
+
+#### Run first test
+
+# Run the first test
+
+    # openqa-client isos post \
+             ISO=openSUSE-Leap-15.1-NET-x86_64.iso \
+             DISTRI=opensuse \
+             VERSION=Leap \
+             FLAVOR=NET \
+             ARCH=x86_64
+
+### Start more workers
+
+Depending on the number of cores and available memory, you might want to start more workers
+
+    ## Enable and start 4 workers (for 4 cores)
+    
+    # systemctl enable --now openqa-worker@1
+    # systemctl enable --now openqa-worker@2
+    # systemctl enable --now openqa-worker@3
+    # systemctl enable --now openqa-worker@4
+
 License
 -------
 
