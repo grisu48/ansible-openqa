@@ -1,17 +1,14 @@
-OpenQA
-======
+# OpenQA
 
-Role to install and bootstrap [open.qa](OpenQA) on a host
+Role to install and bootstrap [open.qa](OpenQA) for [openSUSE Linux](https://opensuse.org/) on a host
 
-Requirements
-------------
+## Requirements
 
-Basic `openSUSE` Linux installation with working network and `python-xml`
+Basic openSUSE Linux installation with configured network and `python-xml`
 
     zypper in python-xml
 
-Role Variables
---------------
+## Role Variables
 
 The following variables are set
 
@@ -19,8 +16,7 @@ The following variables are set
     firewall_interface: "public"       # Firewall interface to configure
 
 
-Example Playbook
-----------------
+## Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
@@ -28,8 +24,7 @@ Including an example of how to use your role (for instance, with variables passe
       roles:
          - { role: openqa, firewall_configure: true }
 
-Post-Install steps
-------------------
+## Post-Install steps
 
 Checkout the [OpenQA Documentation](http://open.qa/docs/#_adding_a_new_iso_to_test) for the first steps after installing. The following is just a kick-start guide.
 
@@ -76,12 +71,7 @@ Depending on the number of cores **and available memory** (Recommended `4GB RAM`
     # systemctl enable --now openqa-worker@3
     # systemctl enable --now openqa-worker@4
 
-License
--------
+## License
 
-MIT
 
-Author Information
-------------------
-
-Felix Niederwanger, 2020
+[GPLv2](https://opensource.org/licenses/gpl-2.0.php)
