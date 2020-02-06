@@ -4,11 +4,12 @@
 
 - name: Install OpenQA Bootstrap
   zypper:
-    name: ['openQA-bootstrap', 'qemu-tools'] # Needed: qemu-tools libvirt libvirt-client libvirt-daemon ?
+    name: ['openQA-bootstrap', 'qemu-tools']
     state: installed
   tags: ['openqa']
 - name: Bootstrap OpenQA
   shell: |
+    # NOTE: openQA-bootstrap is installed in /usr/share/openqa/script/openqa-bootstrap
     if [ ! -d /var/lib/openqa ] ; then
       ## On Fedora this is necessary to allow Apache to connect to openQA
       #setsebool -P httpd_can_network_connect 1
@@ -18,7 +19,8 @@
       /var/lib/openqa/share/tests/opensuse/products/opensuse/templates
       exit $status
     fi
-  
+
+# In principle those services are activated in openQA-bootstrap. Leave them here just to be sure
 - name: Enable Postgresql
   systemd:
     name: postgresql
