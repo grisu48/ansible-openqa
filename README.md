@@ -33,6 +33,20 @@ Post-Install steps
 
 Checkout the [OpenQA Documentation](http://open.qa/docs/#_adding_a_new_iso_to_test) for the first steps after installing. The following is just a kick-start guide.
 
+### Configure API keys
+
+You find the API keys in your web frontend. Configure your client by editing either `/etc/openqa/client.conf` (global config) or `~/.config/openqa/client.conf` (user config)
+
+    $ mkdir -p ~/.config/openqa/
+
+    $ vim ~/.config/openqa/client.conf
+    
+    [localhost]
+    key = 1234567890ABCDEF
+    secret = 1234567890ABCDEF
+
+Set the key and secret accordingly.
+
 ### Download ISOs
 
 ISOs to be tested should be stored in `/var/lib/openqa/share/factory/iso`
@@ -43,9 +57,13 @@ ISOs to be tested should be stored in `/var/lib/openqa/share/factory/iso`
 
 ### Run your first tests
 
-DVD installation
+Run a full product test for a DVD
 
-    # openqa-client isos post ISO=openSUSE-Leap-15.1-DVD-x86_64.iso DISTRI=opensuse VERSION=Leap FLAVOR=DVD ARCH=x86_64
+    $ openqa-client isos post ISO=openSUSE-Leap-15.1-DVD-x86_64.iso DISTRI=opensuse VERSION=Leap FLAVOR=DVD ARCH=x86_64
+
+Run a single test
+
+    $ openqa-client jobs post ISO=openSUSE-Leap-15.1-DVD-x86_64.iso DISTRI=opensuse VERSION=Leap FLAVOR=DVD ARCH=x86_64 TEST=lvm MACHINE=64bit
 
 ### Start more workers
 
